@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +18,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('main');
+
+
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
+
+Route::get('/contact', [ContactController::class, 'index'])->name('contact');
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+Route::get('/category/all', [CategoryController::class, 'index'])->name('allCategories');
+
+Route::post('/category/add', [CategoryController::class, 'store'])->name('addCategory');
