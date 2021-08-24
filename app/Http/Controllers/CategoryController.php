@@ -17,8 +17,16 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
-        return view('admin.category.index');
+        //uses eloquent relation method
+        $categories = Category::latest()->paginate(5);
+
+        // //classic join query
+        // $categories = Category::select('user_id', 'category_name', 'categories.created_at', 'categories.updated_at', 'users.name')
+        //     ->leftjoin('users', 'users.id', '=', 'categories.user_id')->paginate(3);
+
+        $deletedCategories = Category::onlyTrashed()->latest()->paginate(3);
+
+        return view('admin.category.index', compact('categories', 'deletedCategories'));
     }
 
     /**
@@ -26,22 +34,9 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $req)
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $req)
-    {
-        //
-
-        $req->validate([
+        $validate_category = $req->validate([
             'category_name' => 'required|unique:categories|max:30',
         ], [
             'category_name.required' => 'Category must be filled'
@@ -60,10 +55,24 @@ class CategoryController extends Controller
         $category->user_id = Auth::user()->id;
         $category->created_at = Carbon::now();
 
+        //invoke store
+        $this->store($category);
+
+        return Redirect()->route('allCategories')->with('success', 'Category Inserted Successfully');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store($category)
+    {
         //save object
         $category->save();
 
-        return Redirect()->back()->with('success', 'Category Inserted Successfully');
+        return;
     }
 
     /**
@@ -86,6 +95,8 @@ class CategoryController extends Controller
     public function edit($id)
     {
         //
+        $category = Category::find($id);
+        return view('admin.category.edit', compact('category'));
     }
 
     /**
@@ -98,6 +109,12 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         //
+        Category::find($id)->update([
+            'category_name' => $request->category_name,
+            'user_id' => Auth::user()->id,
+            'updated_at' => Carbon::now()
+        ]);
+        return redirect()->route('allCategories')->with('success', 'Category updated successfully');
     }
 
     /**
@@ -109,5 +126,31 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         //
+
+    }
+
+    public function softDelete($id)
+    {
+        //
+        $delete =  Category::find($id)->delete();
+
+        return redirect()->route('allCategories')->with('success', 'Category Removed Successfully.');
+    }
+
+
+    //retore previously deleted entry
+    public function restoreDeleted($id)
+    {
+        $deletedCategory = Category::withTrashed()->find($id)->restore();
+
+        return Redirect()->route('allCategories')->with('success', 'Category Restored Successfully');
+    }
+
+    //permanently delete entry
+    public function permanentDelete($id)
+    {
+        $permaDelete = Category::onlyTrashed($id)->forceDelete();
+
+        return Redirect()->route('allCategories')->with('success', 'Category Permanently Deleted');
     }
 }
