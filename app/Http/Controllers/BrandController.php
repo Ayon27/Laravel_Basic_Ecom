@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
+use Image;
+
+
 
 class BrandController extends Controller
 {
@@ -38,13 +41,6 @@ class BrandController extends Controller
             'brand_image.required' => 'Please select an image'
         ]);
 
-        //functional approach
-        // Brand::insert([
-        //     'brand_name' => $request->brand_name,
-        //     'created_at' => Carbon::now()
-        // ]);
-
-        //OOP approach
         $brand = new Brand();
         $brand->brand_name = $request->brand_name;
         // $brand->user_id = Auth::user()->id;
@@ -52,15 +48,20 @@ class BrandController extends Controller
 
         $brand_image = $request->file('brand_image');
 
+        // //Not necessary for image intervention package
 
-        $name_gen = hexdec(uniqid());
-        $img_ext = strtolower($brand_image->getClientOriginalExtension());
-        $img_name = $name_gen . '.' . $img_ext;
-        $up_loc = 'img/brand/';
-        $img_loc = $up_loc . $img_name;
+        // $name_gen = hexdec(uniqid());
+        // $img_ext = strtolower($brand_image->getClientOriginalExtension());
+        // $img_name = $name_gen . '.' . $img_ext;
+        // $up_loc = 'img/brand/';
+        // $img_loc = $up_loc . $img_name;
 
-        $brand_image->move($up_loc, $img_name);
+        // $brand_image->move($up_loc, $img_name);
 
+        // //Image intervention method
+        $name_gen = hexdec(uniqid()) . '.' . $brand_image->getClientOriginalExtension();
+        Image::make($brand_image)->resize(300)->save(public_path('/img/brand/' . $name_gen));
+        $img_loc = '/img/brand/' . $name_gen;
         $brand->brand_image = $img_loc;
 
         //invoke store
@@ -129,13 +130,20 @@ class BrandController extends Controller
 
         if ($brand_image) {
 
-            $name_gen = hexdec(uniqid());
-            $img_ext = strtolower($brand_image->getClientOriginalExtension());
-            $img_name = $name_gen . '.' . $img_ext;
-            $up_loc = 'img/brand/';
-            $img_loc = $up_loc . $img_name;
-            $brand_image->move($up_loc, $img_name);
-            unlink($old_img);
+            // $name_gen = hexdec(uniqid());
+            // $img_ext = strtolower($brand_image->getClientOriginalExtension());
+            // $img_name = $name_gen . '.' . $img_ext;
+            // $up_loc = 'img/brand/';
+            // $img_loc = $up_loc . $img_name;
+            // $brand_image->move($up_loc, $img_name);
+
+            //image intervention method
+            $name_gen = hexdec(uniqid()) . '.' . $brand_image->getClientOriginalExtension();
+            Image::make($brand_image)->resize(300)->save(public_path('/img/brand/' . $name_gen));
+            $img_loc = '/img/brand/' . $name_gen;
+
+            unlink(public_path($old_img));
+            Storage::delete(public_path($old_img));
         } else {
             $img_loc = $old_img;
         }
@@ -165,7 +173,7 @@ class BrandController extends Controller
         $brand = Brand::find($id);
         $old_img = $brand->brand_image;
 
-        unlink($old_img);
+        unlink(public_path($old_img));
         // Storage::delete($old_img);
 
         Brand::find($id)->delete();
