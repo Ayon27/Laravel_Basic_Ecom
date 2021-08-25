@@ -143,7 +143,7 @@ class BrandController extends Controller
             $img_loc = '/img/brand/' . $name_gen;
 
             unlink(public_path($old_img));
-            Storage::delete(public_path($old_img));
+            // Storage::delete(public_path($old_img));
         } else {
             $img_loc = $old_img;
         }
