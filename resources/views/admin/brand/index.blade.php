@@ -50,10 +50,10 @@
                                     <th scope="row">{{ $brands->firstItem()+$loop->index }}</th>
                                     <td>{{ $brand->brand_name }}</td>
                                     <td><img src="{{ asset($brand->brand_image) }}" class="img-thumbnail" alt="logo"
-                                            style="max-height: 50px; max-width: 50x">
+                                            style="max-height: 50px; max-width: 50px">
                                     </td>
                                     <td>
-                                        @if ($brand->created_at == NULL)
+                                        @if ($brand->created_at === NULL)
                                         <span class="text-warning">Not Found</span>
                                         @else
                                         {{ $brand->created_at }}
@@ -61,8 +61,8 @@
                                     </td>
                                     <td></td>
                                     <td>
-                                        <a href="{{ url('category/edit/'.$brand->id) }}" class="btn btn-info">Edit</a>
-                                        <a href="{{ url('category/delete/'.$brand->id) }}"
+                                        <a href="{{ url('brand/edit/'.$brand->id) }}" class="btn btn-info">Edit</a>
+                                        <a href="{{ url('brand/delete/'.$brand->id) }}"
                                             class="btn btn-danger">Remove</a>
                                     </td>
                                 </tr>
@@ -85,12 +85,12 @@
                             </div>
                             @enderror
                             <div class="form-group">
-                                <label for="brand_name">Brand name</label>
+                                <label for="addBrandName">Brand name</label>
                                 <input type="text" class="form-control" id="addBrandName" name="brand_name"
                                     placeholder="Brand Name">
                             </div>
                             <div class="form-group">
-                                <label for="brand_image">Brand Image</label>
+                                <label for="addBrandImage">Brand Image</label>
                                 <input type="file" class="" id="addBrandImage" name="brand_image">
                             </div>
                             <button type="submit" class="btn btn-primary">Add Brand</button>

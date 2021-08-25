@@ -96,17 +96,7 @@
         {{-- Deleted Categories --}}
         <div class="row mt-5">
             <div class="col-md-9">
-                <div class="card" style="overflow-y: hidden">
-                    {{-- @if (session('success'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>
-                            {{ session('success') }}
-                    </strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                @endif --}}
+                <div class="card mb-5" style="overflow-y: hidden">
                 <div class="card-header">
                     <b> Deleted Categories</b>
                 </div>
@@ -146,11 +136,8 @@
                     </table>
                     {{ $deletedCategories->links() }}
                 </div>
+                </div>
             </div>
         </div>
     </div>
-    </div>
-
-
-
 </x-app-layout>

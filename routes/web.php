@@ -31,19 +31,14 @@ Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::get('/category/all', [CategoryController::class, 'index'])->name('allCategories');
-
 Route::post('/category/add', [CategoryController::class, 'create'])->name('addCategory');
-
 Route::get('category/edit/{id}', [CategoryController::class, 'edit'])->name('editCategory');
-
 Route::post('category/update/{id}', [CategoryController::class, 'update']);
-
 Route::get('category/delete/{id}', [CategoryController::class, 'softDelete']);
-
 Route::get('category/delete_perma/{id}', [CategoryController::class, 'permanentDelete']);
-
 Route::get('category/restore/{id}', [CategoryController::class, 'restoreDeleted']);
 
 Route::get('brand/all', [BrandController::class, 'index'])->name('allBrand');
-
 Route::post('/brand/add', [BrandController::class, 'create'])->name('addBrand');
+Route::get('/brand/edit/{id}', [BrandController::class, 'edit']);
+Route::post('/brand/update/{id}', [BrandController::class, 'update']);

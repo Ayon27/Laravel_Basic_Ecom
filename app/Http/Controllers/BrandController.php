@@ -56,11 +56,11 @@ class BrandController extends Controller
         $img_ext = strtolower($brand_image->getClientOriginalExtension());
         $img_name = $name_gen . '.' . $img_ext;
         $up_loc = 'img/brand/';
-        $last_img = $up_loc . $img_name;
+        $img_loc = $up_loc . $img_name;
 
         $brand_image->move($up_loc, $img_name);
 
-        $brand->brand_image = $last_img;
+        $brand->brand_image = $img_loc;
 
         //invoke store
         $this->store($brand);
@@ -101,6 +101,8 @@ class BrandController extends Controller
     public function edit($id)
     {
         //
+        $brand = Brand::find($id);
+        return view('admin.brand.edit', compact('brand'));
     }
 
     /**
@@ -113,6 +115,38 @@ class BrandController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $validated_brand = $request->validate([
+            'brand_name' => 'required|max:30'
+        ]);
+        //        echo $request->brand_name;
+        //
+        //        //OOP approach
+
+        $old_img = $request->old_img;
+        $brand_image = $request->file('brand_image');
+
+
+        if ($brand_image !== NULL) {
+
+            $name_gen = hexdec(uniqid());
+            $img_ext = strtolower($brand_image->getClientOriginalExtension());
+            $img_name = $name_gen . '.' . $img_ext;
+            $up_loc = 'img/brand/';
+            $img_loc = $up_loc . $img_name;
+            $brand_image->move($up_loc, $img_name);
+            unlink($old_img);
+            
+        } else {
+            $img_loc = $old_img;
+        }
+
+        Brand::find($id)->update([
+            'brand_name' => $request->brand_name,
+            'brand_image' => $img_loc,
+            'updated_at' => Carbon::now()
+        ]);
+
+        return Redirect()->route('allBrand')->with('success', 'Brand Updated Successfully');
     }
 
     /**
