@@ -40,7 +40,6 @@
                                     <th scope="col">Brand Name</th>
                                     <th scope="col">Brand Image</th>
                                     <th scope="col">Created At</th>
-                                    <th scope="col">Added by</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
@@ -59,7 +58,6 @@
                                         {{ $brand->created_at }}
                                         @endif
                                     </td>
-                                    <td></td>
                                     <td>
                                         <a href="{{ url('brand/edit/'.$brand->id) }}" class="btn btn-info">Edit</a>
                                         <a href="{{ url('brand/delete/'.$brand->id) }}"
@@ -72,7 +70,11 @@
                     </div>
                 </div>
             </div>
+
+
             {{-- Add Brand --}}
+
+
             <div class="col-md-3">
                 <div class="card">
                     <div class="card-header text-center"><b> Add Brand </b></div>
@@ -98,6 +100,8 @@
                     </div>
                 </div>
             </div>
+
+            
         </div>
 
         {{-- Deleted Categories --}}

@@ -6,6 +6,7 @@ use App\Models\Brand;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class BrandController extends Controller
 {
@@ -126,7 +127,7 @@ class BrandController extends Controller
         $brand_image = $request->file('brand_image');
 
 
-        if ($brand_image !== NULL) {
+        if ($brand_image) {
 
             $name_gen = hexdec(uniqid());
             $img_ext = strtolower($brand_image->getClientOriginalExtension());
@@ -135,7 +136,6 @@ class BrandController extends Controller
             $img_loc = $up_loc . $img_name;
             $brand_image->move($up_loc, $img_name);
             unlink($old_img);
-            
         } else {
             $img_loc = $old_img;
         }
@@ -158,5 +158,19 @@ class BrandController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function delete($id)
+    {
+        $brand = Brand::find($id);
+        $old_img = $brand->brand_image;
+
+        unlink($old_img);
+        // Storage::delete($old_img);
+
+        Brand::find($id)->delete();
+
+
+        return redirect()->back()->with('success', 'Brand Successfully Deleted');
     }
 }
