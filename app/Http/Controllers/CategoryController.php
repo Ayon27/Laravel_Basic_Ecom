@@ -10,6 +10,14 @@ use Illuminate\Support\Facades\Redirect;
 
 class CategoryController extends Controller
 {
+
+    //constructor. enforces auth
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+
     /**
      * Display a listing of the resource.
      *
