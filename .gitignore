@@ -14,4 +14,8 @@ yarn-error.log
 /.idea
 /.vscode
 /public/img
-*.jpg\n*.jpeg\n*.png\n*.gif
+public/admin/assets/img
+public/user/assets/img
+public/shop
+
+
