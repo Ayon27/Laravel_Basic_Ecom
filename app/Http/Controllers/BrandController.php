@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Brand;
+use App\Models\MultiImageUpload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Image;
 
 
@@ -43,7 +45,6 @@ class BrandController extends Controller
 
         $brand = new Brand();
         $brand->brand_name = $request->brand_name;
-        // $brand->user_id = Auth::user()->id;
         $brand->created_at = Carbon::now();
 
         $brand_image = $request->file('brand_image');
@@ -76,10 +77,10 @@ class BrandController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store($brand)
+    public function store($instanceToSave)
     {
         //
-        $brand->save();
+        $instanceToSave->save();
         return;
     }
 
@@ -180,5 +181,47 @@ class BrandController extends Controller
 
 
         return redirect()->back()->with('success', 'Brand Successfully Deleted');
+    }
+
+    public function multiUpIndex()
+    {
+        $images = MultiImageUpload::all();
+        return view('admin.MultipleImage.index', compact('images'));
+    }
+
+    public function storeMultipleImage(Request $request)
+    {
+        $imageToUpload = $request->file('image');
+
+        // $validator = Validator::make(
+        //     $imageToUpload,
+        //     [
+        //         'image' => 'required|mimes:jpg,jpeg,png,bmp|max:2000'
+        //     ]
+        // );
+
+
+        if ($imageToUpload) {
+
+            foreach ($imageToUpload as $mult_img) {
+
+
+                $image = new MultiImageUpload();
+                $image->created_at = Carbon::now();
+
+
+                // //Image intervention method
+                $name_gen = hexdec(uniqid()) . '.' . $mult_img->getClientOriginalExtension();
+                Image::make($mult_img)->resize(300, 300)->save(public_path('/img/multi/' . $name_gen));
+                $img_loc = '/img/multi/' . $name_gen;
+
+                $image->image = $img_loc;
+
+                //invoke store
+                $this->store($image);
+            }
+        }
+
+        return redirect()->back()->with('success', 'Image Uploaded Successfully');
     }
 }

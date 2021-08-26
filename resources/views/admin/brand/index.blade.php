@@ -91,6 +91,11 @@
                                 <input type="text" class="form-control" id="addBrandName" name="brand_name"
                                     placeholder="Brand Name">
                             </div>
+                            @error('brand_image')
+                            <div class="card-text">
+                                <span class="text-danger">{{ $message }}</span>
+                            </div>
+                            @enderror
                             <div class="form-group">
                                 <label for="addBrandImage">Brand Image</label>
                                 <input type="file" class="" id="addBrandImage" name="brand_image">
@@ -101,7 +106,7 @@
                 </div>
             </div>
 
-            
+
         </div>
 
         {{-- Deleted Categories --}}

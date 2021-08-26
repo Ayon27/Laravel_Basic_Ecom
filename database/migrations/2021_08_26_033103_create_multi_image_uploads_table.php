@@ -15,6 +15,7 @@ class CreateMultiImageUploadsTable extends Migration
     {
         Schema::create('multi_image_uploads', function (Blueprint $table) {
             $table->id();
+            $table->string('image');
             $table->timestamps();
         });
     }
