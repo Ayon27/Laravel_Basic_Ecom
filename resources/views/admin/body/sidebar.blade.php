@@ -2,7 +2,7 @@
     <div id="sidebar" class="sidebar sidebar-with-footer">
         <!-- Aplication Brand -->
         <div class="app-brand">
-            <a href="">
+            <a href="{{ route('dashboard') }}">
                 <svg class="brand-icon" xmlns="" preserveAspectRatio="xMidYMid" width="30" height="33"
                     viewBox="0 0 30 33">
                     <g fill="none" fill-rule="evenodd">
@@ -33,26 +33,23 @@
 
 
                             <li class="active">
+                                <a class="sidenav-item-link" href="{{ route('allBrand') }}">
+                                    <span class="nav-text">Brand</span>
+
+                                </a>
+                            </li>
+                            <li class="active">
                                 <a class="sidenav-item-link" href="index.html">
-                                    <span class="nav-text">Ecommerce</span>
+                                    <span class="nav-text">Portfolio</span>
 
                                 </a>
                             </li>
-
-
-
-
-
-
-                            <li>
-                                <a class="sidenav-item-link" href="analytics.html">
-                                    <span class="nav-text">Analytics</span>
-
-                                    <span class="badge badge-success">new</span>
+                            <li class="active">
+                                <a class="sidenav-item-link" href="{{ route('allBrand') }}">
+                                    <span class="nav-text">About</span>
 
                                 </a>
                             </li>
-
 
 
 

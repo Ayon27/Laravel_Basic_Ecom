@@ -1,4 +1,4 @@
-@extends('admin.resource.admin_template')
+@extends('admin.body.admin_template')
 
 @section('admin_index')
 

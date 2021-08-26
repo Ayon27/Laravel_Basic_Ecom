@@ -68,7 +68,7 @@ class BrandController extends Controller
 
         // //Image intervention method
         $name_gen = hexdec(uniqid()) . '.' . $brand_image->getClientOriginalExtension();
-        Image::make($brand_image)->resize(300)->save(public_path('/img/brand/' . $name_gen));
+        Image::make($brand_image)->resize(300, 300)->save(public_path('/img/brand/' . $name_gen));
         $img_loc = '/img/brand/' . $name_gen;
         $brand->brand_image = $img_loc;
 
@@ -147,7 +147,7 @@ class BrandController extends Controller
 
             //image intervention method
             $name_gen = hexdec(uniqid()) . '.' . $brand_image->getClientOriginalExtension();
-            Image::make($brand_image)->resize(300)->save(public_path('/img/brand/' . $name_gen));
+            Image::make($brand_image)->resize(300, 300)->save(public_path('/img/brand/' . $name_gen));
             $img_loc = '/img/brand/' . $name_gen;
 
             unlink(public_path($old_img));

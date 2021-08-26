@@ -57,7 +57,7 @@
           ——— LEFT SIDEBAR WITH FOOTER
           =====================================
         -->
-            @include('admin.resource.sidebar')
+            @include('admin.body.sidebar')
 
 
 
@@ -178,6 +178,8 @@
 
 
                 </header>
+
+
                 @yield('admin_index')
 
                 <div class="content-wrapper">

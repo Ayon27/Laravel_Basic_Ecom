@@ -5,6 +5,7 @@ use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LogoutController;
 
 /*
@@ -18,9 +19,7 @@ use App\Http\Controllers\LogoutController;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-})->name('main');
+Route::get('/', [HomeController::class, 'index'])->name('main');
 
 
 Route::get('/about', function () {
