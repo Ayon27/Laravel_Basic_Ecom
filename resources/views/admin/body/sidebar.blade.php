@@ -30,27 +30,41 @@
                     <ul class="collapse show" id="dashboard" data-parent="#sidebar-menu">
                         <div class="sub-menu">
 
+                            <li class="{{ Request::is('carousel.all') ? 'active' : '' }}">
+                                <a class="sidenav-item-link" href="{{ route('carousel.all') }}">
+                                    <span class="nav-text">Slider Menu</span>
+
+                                </a>
+                            </li>
 
 
-                            <li class="active">
+                            <li class="{{ Request::is('allBrand') ? 'active' : '' }}">
                                 <a class="sidenav-item-link" href="{{ route('allBrand') }}">
                                     <span class="nav-text">Brand</span>
 
                                 </a>
                             </li>
-                            <li class="active">
-                                <a class="sidenav-item-link" href="index.html">
-                                    <span class="nav-text">Portfolio</span>
+
+                            <li class="">
+                                <a class="sidenav-item-link" href="{{ route('allCategories') }}">
+                                    <span class="nav-text">Categories</span>
 
                                 </a>
                             </li>
-                            <li class="active">
-                                <a class="sidenav-item-link" href="{{ route('allBrand') }}">
+
+                            <li class="{{ Request::is('about.index') ? 'active' : '' }}">
+                                <a class="sidenav-item-link" href="{{ route('about.index') }}">
                                     <span class="nav-text">About</span>
 
                                 </a>
                             </li>
 
+                            <li class="{{ Request::is('multiImg') ? 'active' : '' }}">
+                                <a class="sidenav-item-link" href="{{ route('multiImg') }}">
+                                    <span class="nav-text">Upload Images</span>
+
+                                </a>
+                            </li>
 
 
                         </div>

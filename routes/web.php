@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AboutController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
@@ -7,6 +8,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\CarouselController;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,3 +60,15 @@ Route::get('/email/verify', function () {
 
 //logout
 Route::get('admin/logout', [LogoutController::class, 'logout'])->name('admin.logout');
+
+//Carousel
+Route::get('admin/carousel', [CarouselController::class, 'index'])->name('carousel.all');
+Route::post('admin/carousel/add', [CarouselController::class, 'create'])->name('carousel.add');
+Route::get('admin/carousel/delete/{id}', [CarouselController::class, 'delete'])->name('carousel.delete');
+Route::get('admin/carousel/edit/{id}', [CarouselController::class, 'edit'])->name('carousel.edit');
+Route::post('admin/carousel/update/{id}', [CarouselController::class, 'update'])->name('carousel.update');
+
+
+//About us section
+Route::get('/admin/about', [AboutController::class, 'index'])->name('about.index');
+Route::post('/admin/about/add', [AboutController::class, 'add'])->name('about.add');

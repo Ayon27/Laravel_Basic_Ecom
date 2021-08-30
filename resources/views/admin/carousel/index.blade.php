@@ -2,7 +2,6 @@
 
 @section('admin_index')
 
-
 <div class="container">
 
     {{-- All Categories --}}
@@ -20,76 +19,94 @@
                 </div>
                 @endif
                 <div class="card-header">
-                    <b> All Brands</b>
+                    <b> All Slides</b>
                 </div>
                 <div class="card-body">
                     <table class="table">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Brand Name</th>
-                                <th scope="col">Brand Image</th>
-                                <th scope="col">Created At</th>
+                                <th scope="col">Title</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Image</th>
+                                <th scope="col">Added on</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($brands as $brand )
+                            @foreach ($carousels as $carousel )
                             <tr>
-                                <th scope="row">{{ $brands->firstItem()+$loop->index }}</th>
-                                <td>{{ $brand->brand_name }}</td>
-                                <td><img src="{{ asset($brand->brand_image) }}" class="img-thumbnail" alt="logo"
-                                        style="max-height: 50px; max-width: 50px">
+                                <th scope="row">{{ $carousels->firstItem()+$loop->index }}</th>
+                                <td>{{ $carousel->title }}</td>
+                                <td>{{ $carousel->desc }}</td>
+                                <td><img src="{{ asset($carousel->image) }}" class="img" alt="logo"
+                                        style="max-height: 100px; max-width: 100px">
                                 </td>
                                 <td>
-                                    @if ($brand->created_at === NULL)
+                                    @if ($carousel->created_at === NULL)
                                     <span class="text-warning">Not Found</span>
                                     @else
-                                    {{ $brand->created_at }}
+                                    {{ $carousel->created_at }}
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="{{ url('brand/edit/'.$brand->id) }}" class="btn btn-info">Edit</a>
-                                    <a href="{{ url('brand/delete/'.$brand->id) }}" class="btn btn-danger">Remove</a>
+                                    <a href="{{ url('admin/carousel/edit/'.$carousel->id) }}" class="">Edit</a>
+                                    <a href="{{ url('admin/carousel/delete/'.$carousel->id) }}" class="">Remove</a>
                                 </td>
                             </tr>
                             @endforeach
                     </table>
-                    {{ $brands->links('pagination::bootstrap-4') }}
+                    {{ $carousels->links('pagination::bootstrap-4') }}
                 </div>
             </div>
         </div>
 
 
-        {{-- Add Brand --}}
+        {{-- Add Carousel --}}
 
 
         <div class="col-md-3">
             <div class="card">
-                <div class="card-header text-center"><b> Add Brand </b></div>
+                <div class="card-header text-center"><b> Add Slide </b></div>
                 <div class="card-body">
-                    <form action="{{ route('addBrand') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('carousel.add') }}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        @error('brand_name')
+
+                        @error('title')
                         <div class="card-text">
                             <span class="text-danger">{{ $message }}</span>
                         </div>
                         @enderror
+
                         <div class="form-group">
-                            <label for="addBrandName">Brand name</label>
-                            <input type="text" class="form-control" id="addBrandName" name="brand_name"
-                                placeholder="Brand Name">
+                            <label for="title">Title</label>
+                            <input type="text" class="form-control" id="title" name="title" placeholder="Title">
                         </div>
-                        @error('brand_image')
+
+                        @error('desc')
                         <div class="card-text">
                             <span class="text-danger">{{ $message }}</span>
                         </div>
                         @enderror
+
                         <div class="form-group">
-                            <label for="addBrandImage">Brand Image</label>
-                            <input type="file" class="" id="addBrandImage" name="brand_image">
+                            <label for="desc">Description</label>
+                            <textarea class="form-control" id="desc" name="desc" placeholder="Description"></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary">Add Brand</button>
+
+                        @error('image')
+                        <div class="card-text">
+                            <span class="text-danger">{{ $message }}</span>
+                        </div>
+
+                        @enderror
+                        <div class="form-group">
+                            <label for="image">Slider Image</label>
+                            <input type="file" class="" id="image" name="image">
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Add Slide</button>
+
                     </form>
                 </div>
             </div>
